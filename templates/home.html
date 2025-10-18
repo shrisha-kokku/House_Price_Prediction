@@ -3,37 +3,145 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🏠Boston House Price Prediction</title>
+    <title>🏠 Boston House Price Prediction</title>
+    <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #000000; /* black page background */
+        color: #000000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 40px 20px;
+    }
+
+    .login {
+        background-color: #ffffff; /* white inner box */
+        padding: 30px 40px;
+        border-radius: 12px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        width: 360px;
+        color: #000000; /* text inside box is black */
+    }
+
+    h1 {
+        text-align: center;
+        color: #000000;
+        margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        background-color: #f8f8f8;
+        color: #000000;
+        font-size: 14px;
+    }
+
+    input::placeholder {
+        color: #555555;
+    }
+
+    button {
+        width: 100%;
+        padding: 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        margin-top: 12px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    .prediction {
+        margin-top: 20px;
+        font-size: 18px;
+        color: #50fa7b;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    label {
+        font-size: 14px;
+        margin-bottom: 4px;
+        display: block;
+        color: #000000;
+    }
+</style>
+
 </head>
 <body>
     <div class="login">
-	<h1>🏠Boston House Price Prediction</h1>
+        <h1>🏡 Boston House Price Prediction</h1>
 
-    <form action="{{ url_for('predict')}}"method="post">
-      <input type="text" name="CRIM" placeholder="CRIM" required="required" /><br>
-    	<input type="text" name="ZN" placeholder="ZN" required="required" /><br>
-        <input type="text" name="INDUS" placeholder="INDUS" required="required" /><br>
-        <input type="text" name="CHAS" placeholder="CHAS" required="required" /><br>
-        <input type="text" name="NOX" placeholder="NOX" required="required" /><br>
-        <input type="text" name="RM" placeholder="RM" required="required" /><br>
-        <input type="text" name="Age" placeholder="Age" required="required" /><br>
-        <input type="text" name="DIS" placeholder="DIS" required="required" /><br>
-        <input type="text" name="RAD" placeholder="RAD" required="required" /><br>
-        <input type="text" name="TAX" placeholder="TAX" required="required" /><br>
-        <input type="text" name="PTRATIO" placeholder="PTRATIO" required="required" /><br>
-        <input type="text" name="B" placeholder="B" required="required" /><br>
-        <input type="text" name="LSTAT" placeholder="LSTAT" required="required" /><br>
+        <form action="{{ url_for('predict')}}" method="post">
+            <label>🏙️ CRIM – Per Capita Crime Rate</label>
+            <input type="text" name="CRIM" placeholder="Example: 0.00632" required />
+            <br>
 
-       <br>
+            <label>🏘️ ZN – Residential Land Zoned (%)</label>
+            <input type="text" name="ZN" placeholder="Example: 18" required />
+            <br>
 
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-    </form>
+            <label>🏭 INDUS – Non-retail Business Acres (%)</label>
+            <input type="text" name="INDUS" placeholder="Example: 2.31" required />
+            <br>
 
-   <br>
-   <br>
-  
- </div>
- {{prediction_text}}
+            <label>🌊 CHAS – Charles River (1 if tract bounds river, 0 otherwise)</label>
+            <input type="text" name="CHAS" placeholder="0 or 1" required />
+            <br>
 
+            <label>☁️ NOX – Nitric Oxides Concentration</label>
+            <input type="text" name="NOX" placeholder="Example: 0.538" required />
+            <br>
+
+            <label>🛏️ RM – Average Number of Rooms per Dwelling</label>
+            <input type="text" name="RM" placeholder="Example: 6.575" required />
+            <br>
+
+            <label>🏠 AGE – Proportion of Owner-Occupied Units Built Before 1940 (%)</label>
+            <input type="text" name="Age" placeholder="Example: 65.2" required />
+            <br>
+
+            <label>🚗 DIS – Weighted Distances to Employment Centers</label>
+            <input type="text" name="DIS" placeholder="Example: 4.09" required />
+            <br>
+
+            <label>🚦 RAD – Accessibility to Highways</label>
+            <input type="text" name="RAD" placeholder="Example: 1" required />
+            <br>
+
+            <label>💰 TAX – Property Tax Rate per $10,000</label>
+            <input type="text" name="TAX" placeholder="Example: 296" required />
+            <br>
+
+            <label>📚 PTRATIO – Pupil-Teacher Ratio by Town</label>
+            <input type="text" name="PTRATIO" placeholder="Example: 15.3" required />
+            <br>
+
+            <label>🟦 B – 1000(Bk – 0.63)^2 where Bk is proportion of Black residents</label>
+            <input type="text" name="B" placeholder="Example: 396.9" required />
+            <br>
+
+            <label>📉 LSTAT – % Lower Status of the Population</label>
+            <input type="text" name="LSTAT" placeholder="Example: 4.98" required />
+            <br>
+
+            <button type="submit">🔍 Predict Price</button>
+        </form>
+
+        {% if prediction_text %}
+        <div class="prediction">{{ prediction_text }}</div>
+        {% endif %}
+    </div>
 </body>
 </html>
